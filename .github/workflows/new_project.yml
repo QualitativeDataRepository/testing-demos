@@ -36,9 +36,12 @@ jobs:
     - name: Create GitHub project and issues
       run: |
         project=$(gh project create --owner "$org" --title "$title" --format json --jq .number)
+        echo "Made project number: $project"
         gh project edit $project --description "$desc" --readme "$readme"
-        gh project link $project --owner "$org"
-        gh project link $project --owner "$org" --team "curation-and-recruitment"
+        echo "Set project metadata..."
+        # gh project link $project
+        gh project link $project --owner $org --team curation-and-recruitment
+        echo "Linked to project to repository and team!"
         echo "Title: $title"
         echo "Desc: $desc"
         echo "Readme: $readme"
