@@ -19,8 +19,8 @@ env:
   title: ${{ github.event.inputs.title }}
   desc: ${{ github.event.inputs.desc }}
   readme: ${{ github.event.inputs.readme }}
-  # GH_TOKEN: ${{ github.token }}
-  GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+  GH_TOKEN: ${{ github.token }}
+  # GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
 
 jobs:
   create-project:
