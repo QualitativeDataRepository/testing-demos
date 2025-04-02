@@ -19,8 +19,8 @@ env:
   title: ${{ github.event.inputs.title }}
   desc: ${{ github.event.inputs.desc }}
   readme: ${{ github.event.inputs.readme }}
-  GH_TOKEN: ${{ github.token }}
-  # GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+  # GH_TOKEN: ${{ github.token }}
+  GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
 
 jobs:
   create-project:
@@ -37,14 +37,14 @@ jobs:
       run: |
         project=$(gh project create --owner "$org" --title "$title" --format json --jq .number)
         echo "Made project number: $project"
-        gh project edit $project --owner $org --description "$desc" --readme "$readme"
-        echo "Set project metadata..."
-        gh project link $project --owner $org
-        # gh project link $project --owner $org --team curation-and-recruitment
-        echo "Linked to project to repository and team!"
         echo "Title: $title"
         echo "Desc: $desc"
         echo "Readme: $readme"
+        gh project edit $project --owner $org --description "$desc" --readme "$readme"
+        echo "Set project metadata..."
+        # gh project link $project --owner $org
+        # gh project link $project --owner $org --team curation-and-recruitment
+        # echo "Linked to project to repository and team!"
         for file in issue_template/*.md; do
           issue_title="$title - $(basename ${file%.md} | tr '_' ' ' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1')"
           gh issue -R "$repo" create --title "$issue_title" --body-file "$file" --project "$title"
